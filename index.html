@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M-Wallet | Your Digital Wallet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="logo">
+                <h1>M-Wallet</h1>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="active" id="home-link">Home</a>
+                <a href="#" id="about-link">About</a>
+                <a href="#" id="contact-link">Contact</a>
+            </div>
+            <div class="auth-buttons">
+                <button id="login-btn" class="btn btn-outline">Login</button>
+                <button id="register-btn" class="btn btn-primary">Register</button>
+            </div>
+            <div class="user-menu hidden">
+                <span id="user-greeting">Hello, User</span>
+                <button id="dashboard-btn" class="btn btn-outline">Dashboard</button>
+                <button id="logout-btn" class="btn btn-outline">Logout</button>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main id="main-content">
+            <!-- Home Page Content -->
+            <section id="home-section" class="section active">
+                <div class="hero">
+                    <div class="hero-content">
+                        <h1>Your Money, Simplified</h1>
+                        <p>Join M-Wallet today and get an instant 200 KES bonus!</p>
+                        <button id="get-started-btn" class="btn btn-primary btn-large">Get Started</button>
+                    </div>
+                    <div class="hero-image">
+                        <img src="images/wallet-illustration.svg" alt="Mobile Wallet Illustration" class="placeholder-image">
+                    </div>
+                </div>
+                
+                <div class="features">
+                    <h2>Why Choose M-Wallet?</h2>
+                    <div class="feature-cards">
+                        <div class="feature-card">
+                            <i class="fas fa-gift feature-icon"></i>
+                            <h3>200 KES Welcome Bonus</h3>
+                            <p>Get an instant bonus when you sign up. Withdrawable after your first deposit of 49 KES.</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-mobile-alt feature-icon"></i>
+                            <h3>Mobile-First Experience</h3>
+                            <p>Designed for the modern Kenyan, our wallet works perfectly on any mobile device.</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-shield-alt feature-icon"></i>
+                            <h3>Secure Transactions</h3>
+                            <p>Your money and data are protected with industry-leading security measures.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="how-it-works">
+                    <h2>How It Works</h2>
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <h3>Create an Account</h3>
+                            <p>Sign up in less than 2 minutes and get your 200 KES bonus instantly.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <h3>Make a Deposit</h3>
+                            <p>Deposit at least 49 KES to activate your bonus for withdrawal.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <h3>Enjoy Your Money</h3>
+                            <p>Withdraw, send, or spend your funds including your bonus!</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Page Content -->
+            <section id="about-section" class="section">
+                <h1>About M-Wallet</h1>
+                <p>M-Wallet is a revolutionary digital wallet designed for Kenyans. Our mission is to provide accessible, secure, and rewarding financial services to everyone.</p>
+                
+                <div class="about-content">
+                    <div class="about-text">
+                        <h2>Our Story</h2>
+                        <p>Founded in 2025, M-Wallet was created to address the need for a simple yet powerful mobile wallet solution in Kenya. We believe that financial services should be accessible to everyone, regardless of their background or location.</p>
+                        
+                        <h2>Our Values</h2>
+                        <ul>
+                            <li><strong>Accessibility:</strong> Making financial services available to all Kenyans</li>
+                            <li><strong>Security:</strong> Protecting your money and data with the highest standards</li>
+                            <li><strong>Innovation:</strong> Continuously improving our services to meet your needs</li>
+                            <li><strong>Community:</strong> Building a financial ecosystem that benefits everyone</li>
+                        </ul>
+                    </div>
+                    <div class="about-image">
+                        <img src="images/about-us.svg" alt="About M-Wallet" class="placeholder-image">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Page Content -->
+            <section id="contact-section" class="section">
+                <h1>Contact Us</h1>
+                <p>Have questions or feedback? We'd love to hear from you!</p>
+                
+                <div class="contact-container">
+                    <div class="contact-form">
+                        <h2>Send Us a Message</h2>
+                        <form id="contact-form">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" name="message" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </form>
+                    </div>
+                    <div class="contact-info">
+                        <h2>Get in Touch</h2>
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p>Nairobi, Kenya</p>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <p>+254 700 000000</p>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <p>support@mwallet.co.ke</p>
+                        </div>
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Login Form -->
+            <section id="login-section" class="section auth-section">
+                <div class="auth-container">
+                    <h2>Login to Your Account</h2>
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="login-phone">Phone Number</label>
+                            <input type="tel" id="login-phone" name="phone" placeholder="e.g., 0712345678" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" name="password" required>
+                        </div>
+                        <div class="form-options">
+                            <div class="remember-me">
+                                <input type="checkbox" id="remember" name="remember">
+                                <label for="remember">Remember me</label>
+                            </div>
+                            <a href="#" class="forgot-password">Forgot Password?</a>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Login</button>
+                    </form>
+                    <div class="auth-footer">
+                        <p>Don't have an account? <a href="#" id="to-register-link">Register</a></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Registration Form -->
+            <section id="register-section" class="section auth-section">
+                <div class="auth-container">
+                    <h2>Create Your Account</h2>
+                    <div class="bonus-alert">
+                        <i class="fas fa-gift"></i>
+                        <p>Get 200 KES bonus when you register!</p>
+                    </div>
+                    <form id="register-form">
+                        <div class="form-group">
+                            <label for="register-name">Full Name</label>
+                            <input type="text" id="register-name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-phone">Phone Number</label>
+                            <input type="tel" id="register-phone" name="phone" placeholder="e.g., 0712345678" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-email">Email (Optional)</label>
+                            <input type="email" id="register-email" name="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="register-password">Password</label>
+                            <input type="password" id="register-password" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-confirm-password">Confirm Password</label>
+                            <input type="password" id="register-confirm-password" name="confirm-password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="profile-pic">Profile Picture (Optional)</label>
+                            <input type="file" id="profile-pic" name="profile-pic" accept="image/*">
+                            <img id="profile-pic-preview" src="" alt="Profile Preview" style="display:none;max-width:100px;margin-top:10px;border-radius:50%;">
+                        </div>
+                        <div class="form-options">
+                            <div class="terms">
+                                <input type="checkbox" id="terms" name="terms" required>
+                                <label for="terms">I agree to the <a href="#">Terms & Conditions</a></label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                    </form>
+                    <div class="auth-footer">
+                        <p>Already have an account? <a href="#" id="to-login-link">Login</a></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- User Dashboard -->
+            <section id="dashboard-section" class="section">
+                <div class="dashboard-container">
+                    <div class="dashboard-header">
+                        <img id="dashboard-profile-pic" src="images/default-profile.png" alt="Profile Picture" style="width:64px;height:64px;border-radius:50%;object-fit:cover;">
+                        <h1>Welcome, <span id="dashboard-user-name">User</span></h1>
+                        <p class="last-login">Last login: <span id="last-login-time">Today, 12:30 PM</span></p>
+                    </div>
+
+                    <div class="account-overview">
+                        <div class="balance-card">
+                            <div class="balance-info">
+                                <h2>Account Balance</h2>
+                                <div class="balance-amount">
+                                    <span class="currency">KES</span>
+                                    <span id="account-balance" class="amount">0.00</span>
+                                </div>
+                                <div class="balance-breakdown">
+                                    <div class="breakdown-item">
+                                        <span class="breakdown-label">Available:</span>
+                                        <span id="available-balance" class="breakdown-value">0.00</span>
+                                    </div>
+                                    <div class="breakdown-item">
+                                        <span class="breakdown-label">Bonus:</span>
+                                        <span id="bonus-balance" class="breakdown-value">0.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bonus-status" id="bonus-status-locked">
+                                <i class="fas fa-lock"></i>
+                                <p>Deposit 49 KES to unlock your bonus</p>
+                            </div>
+                            <div class="bonus-status hidden" id="bonus-status-unlocked">
+                                <i class="fas fa-unlock"></i>
+                                <p>Bonus unlocked! You can now withdraw it</p>
+                            </div>
+                        </div>
+
+                        <div class="quick-actions">
+                            <button id="deposit-btn" class="action-btn">
+                                <i class="fas fa-arrow-down"></i>
+                                <span>Deposit</span>
+                            </button>
+                            <button id="withdraw-btn" class="action-btn">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>Withdraw</span>
+                            </button>
+                            <button id="send-btn" class="action-btn">
+                                <i class="fas fa-paper-plane"></i>
+                                <span>Send</span>
+                            </button>
+                            <button id="history-btn" class="action-btn">
+                                <i class="fas fa-history"></i>
+                                <span>History</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="transaction-section">
+                        <h2>Recent Transactions</h2>
+                        <div class="transaction-list" id="transaction-list">
+                            <div class="empty-transactions">
+                                <i class="fas fa-receipt"></i>
+                                <p>No transactions yet</p>
+                            </div>
+                            <!-- Transactions will be added dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Deposit Modal -->
+                <div id="deposit-modal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Deposit Money</h2>
+                            <span class="close-modal">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <form id="deposit-form">
+                                <div class="form-group">
+                                    <label for="deposit-amount">Amount (KES)</label>
+                                    <input type="number" id="deposit-amount" name="amount" min="10" step="1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="deposit-method">Payment Method</label>
+                                    <select id="deposit-method" name="method" required>
+                                        <option value="">Select payment method</option>
+                                        <option value="mpesa">M-Pesa</option>
+                                        <option value="card">Debit/Credit Card</option>
+                                        <option value="bank">Bank Transfer</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block">Proceed to Deposit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Withdraw Modal -->
+                <div id="withdraw-modal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Withdraw Money</h2>
+                            <span class="close-modal">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <form id="withdraw-form">
+                                <div class="form-group">
+                                    <label for="withdraw-amount">Amount (KES)</label>
+                                    <input type="number" id="withdraw-amount" name="amount" min="10" step="1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="withdraw-method">Withdrawal Method</label>
+                                    <select id="withdraw-method" name="method" required>
+                                        <option value="">Select withdrawal method</option>
+                                        <option value="mpesa">M-Pesa</option>
+                                        <option value="bank">Bank Account</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="withdraw-number">Phone/Account Number</label>
+                                    <input type="text" id="withdraw-number" name="number" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block">Withdraw</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Send Money Modal -->
+                <div id="send-modal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Send Money</h2>
+                            <span class="close-modal">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <form id="send-form">
+                                <div class="form-group">
+                                    <label for="recipient-phone">Recipient Phone Number</label>
+                                    <input type="tel" id="recipient-phone" name="phone" placeholder="e.g., 0712345678" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="send-amount">Amount (KES)</label>
+                                    <input type="number" id="send-amount" name="amount" min="10" step="1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="send-note">Note (Optional)</label>
+                                    <textarea id="send-note" name="note" rows="2"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block">Send Money</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>M-Wallet</h2>
+                    <p>Your Money, Simplified</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h3>Company</h3>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">Press</a></li>
+                            <li><a href="#">Blog</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h3>Support</h3>
+                        <ul>
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">FAQs</a></li>
+                            <li><a href="#">Community</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h3>Legal</h3>
+                        <ul>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">Security</a></li>
+                            <li><a href="#">Compliance</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Stay Updated</h3>
+                    <p>Subscribe to our newsletter for the latest updates and offers.</p>
+                    <form id="newsletter-form">
+                        <input type="email" placeholder="Your email address" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 M-Wallet. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Notification System -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <script src="js/app.js"></script>
+    <!-- ...existing code... -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Utility: Show only the requested section
+    function showSection(sectionId) {
+        document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+        document.getElementById(sectionId).classList.add('active');
+    }
+
+    // Login form handler
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Simulate successful login
+        showSection('dashboard-section');
+    });
+
+    // Register form handler
+    document.getElementById('register-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Simulate successful registration
+        showSection('dashboard-section');
+    });
+
+    // Switch to register page
+    document.getElementById('to-register-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        showSection('register-section');
+    });
+
+    // Switch to login page
+    document.getElementById('to-login-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        showSection('login-section');
+    });
+
+    // Optionally, hide dashboard on logout
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            showSection('home-section');
+        });
+    }
+});
+</script>
+<!-- ...existing code... -->
+</body>
+</html>
