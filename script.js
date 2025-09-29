@@ -1,800 +1,1024 @@
-// Mobile Wallet Application JavaScript
+/* Base Styles and Variables */
+:root {
+    --primary-color: #4CAF50;
+    --primary-dark: #388E3C;
+    --primary-light: #C8E6C9;
+    --secondary-color: #FFC107;
+    --text-color: #333333;
+    --text-light: #757575;
+    --background-color: #F5F5F5;
+    --white: #FFFFFF;
+    --error-color: #F44336;
+    --success-color: #4CAF50;
+    --warning-color: #FF9800;
+    --info-color: #2196F3;
+    --border-radius: 8px;
+    --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
 
-// DOM Elements
-document.addEventListener('DOMContentLoaded', function() {
-    // Navigation Elements
-    const homeLink = document.getElementById('home-link');
-    const aboutLink = document.getElementById('about-link');
-    const contactLink = document.getElementById('contact-link');
-    const loginBtn = document.getElementById('login-btn');
-    const registerBtn = document.getElementById('register-btn');
-    const getStartedBtn = document.getElementById('get-started-btn');
-    const dashboardBtn = document.getElementById('dashboard-btn');
-    const logoutBtn = document.getElementById('logout-btn');
-    const toRegisterLink = document.getElementById('to-register-link');
-    const toLoginLink = document.getElementById('to-login-link');
-    const menuToggle = document.querySelector('.menu-toggle');
-    
-    // Section Elements
-    const homeSection = document.getElementById('home-section');
-    const aboutSection = document.getElementById('about-section');
-    const contactSection = document.getElementById('contact-section');
-    const loginSection = document.getElementById('login-section');
-    const registerSection = document.getElementById('register-section');
-    const dashboardSection = document.getElementById('dashboard-section');
-    
-    // Form Elements
-    const loginForm = document.getElementById('login-form');
-    const registerForm = document.getElementById('register-form');
-    const depositForm = document.getElementById('deposit-form');
-    const withdrawForm = document.getElementById('withdraw-form');
-    const sendForm = document.getElementById('send-form');
-    const contactForm = document.getElementById('contact-form');
-    const newsletterForm = document.getElementById('newsletter-form');
-    
-    // Dashboard Elements
-    const depositBtn = document.getElementById('deposit-btn');
-    const withdrawBtn = document.getElementById('withdraw-btn');
-    const sendBtn = document.getElementById('send-btn');
-    const historyBtn = document.getElementById('history-btn');
-    const accountBalance = document.getElementById('account-balance');
-    const availableBalance = document.getElementById('available-balance');
-    const bonusBalance = document.getElementById('bonus-balance');
-    const bonusStatusLocked = document.getElementById('bonus-status-locked');
-    const bonusStatusUnlocked = document.getElementById('bonus-status-unlocked');
-    const transactionList = document.getElementById('transaction-list');
-    const dashboardUserName = document.getElementById('dashboard-user-name');
-    const lastLoginTime = document.getElementById('last-login-time');
-    
-    // Modal Elements
-    const depositModal = document.getElementById('deposit-modal');
-    const withdrawModal = document.getElementById('withdraw-modal');
-    const sendModal = document.getElementById('send-modal');
-    const closeModalButtons = document.querySelectorAll('.close-modal');
-    
-    // User Data (In a real app, this would come from a database)
-    let currentUser = null;
-    let users = JSON.parse(localStorage.getItem('users')) || [];
-    
-    // Initialize the app
-    function init() {
-        checkLoggedInUser();
-        setupEventListeners();
-    }
-    
-    // Check if a user is logged in
-    function checkLoggedInUser() {
-        const loggedInUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (loggedInUser) {
-            currentUser = loggedInUser;
-            showLoggedInUI();
-            updateDashboard();
-        }
-    }
-    
-    // Setup Event Listeners
-    function setupEventListeners() {
-        // Navigation
-        homeLink.addEventListener('click', () => showSection(homeSection));
-        aboutLink.addEventListener('click', () => showSection(aboutSection));
-        contactLink.addEventListener('click', () => showSection(contactSection));
-        loginBtn.addEventListener('click', () => showSection(loginSection));
-        registerBtn.addEventListener('click', () => showSection(registerSection));
-        getStartedBtn.addEventListener('click', () => showSection(registerSection));
-        dashboardBtn.addEventListener('click', () => showSection(dashboardSection));
-        logoutBtn.addEventListener('click', handleLogout);
-        toRegisterLink.addEventListener('click', () => showSection(registerSection));
-        toLoginLink.addEventListener('click', () => showSection(loginSection));
-        
-        // Forms
-        if (loginForm) loginForm.addEventListener('submit', handleLogin);
-        if (registerForm) registerForm.addEventListener('submit', handleRegister);
-        if (depositForm) depositForm.addEventListener('submit', handleDeposit);
-        if (withdrawForm) withdrawForm.addEventListener('submit', handleWithdraw);
-        if (sendForm) sendForm.addEventListener('submit', handleSend);
-        if (contactForm) contactForm.addEventListener('submit', handleContact);
-        if (newsletterForm) newsletterForm.addEventListener('submit', handleNewsletter);
-        
-        // Dashboard Actions
-        if (depositBtn) depositBtn.addEventListener('click', () => showModal(depositModal));
-        if (withdrawBtn) withdrawBtn.addEventListener('click', () => showModal(withdrawModal));
-        if (sendBtn) sendBtn.addEventListener('click', () => showModal(sendModal));
-        if (historyBtn) historyBtn.addEventListener('click', showAllTransactions);
-        
-        // Modals
-        closeModalButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const modal = button.closest('.modal');
-                hideModal(modal);
-            });
-        });
-        
-        // Close modal when clicking outside
-        window.addEventListener('click', (e) => {
-            if (e.target.classList.contains('modal')) {
-                hideModal(e.target);
-            }
-        });
-        
-        // Mobile menu toggle
-        if (menuToggle) {
-            menuToggle.addEventListener('click', toggleMobileMenu);
-        }
-    }
-    
-    // Show a specific section
-    function showSection(section) {
-        // Hide all sections
-        const sections = document.querySelectorAll('.section');
-        sections.forEach(s => s.classList.remove('active'));
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        // Show the selected section
-        section.classList.add('active');
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
 
-        // Debug log: show which section is now active
-        console.log('Activated section:', section.id);
-        // Log all active sections
-        const activeSections = Array.from(document.querySelectorAll('.section.active')).map(s => s.id);
-        console.log('Currently active sections:', activeSections);
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: var(--transition);
+}
 
-        // Update active nav link
-        const navLinks = document.querySelectorAll('.nav-links a');
-        navLinks.forEach(link => link.classList.remove('active'));
+a:hover {
+    color: var(--primary-dark);
+}
 
-        // Set active nav link based on section
-        if (section === homeSection) {
-            homeLink.classList.add('active');
-        } else if (section === aboutSection) {
-            aboutLink.classList.add('active');
-        } else if (section === contactSection) {
-            contactLink.classList.add('active');
-        }
+ul {
+    list-style: none;
+}
 
-        // Close mobile menu if open
-        const navLinksMenu = document.querySelector('.nav-links');
-        if (navLinksMenu && navLinksMenu.classList.contains('active')) {
-            navLinksMenu.classList.remove('active');
-        }
-    }
-    
-    // Toggle mobile menu
-    function toggleMobileMenu() {
-        const navLinks = document.querySelector('.nav-links');
-        const authButtons = document.querySelector('.auth-buttons');
-        const userMenu = document.querySelector('.user-menu');
-        
-        if (navLinks) navLinks.classList.toggle('active');
-        if (authButtons && !currentUser) authButtons.classList.toggle('active');
-        if (userMenu && currentUser) userMenu.classList.toggle('active');
-    }
-    
-    // Show modal
-    function showModal(modal) {
-        modal.classList.add('active');
-    }
-    
-    // Hide modal
-    function hideModal(modal) {
-        modal.classList.remove('active');
-        
-        // Reset form if exists
-        const form = modal.querySelector('form');
-        if (form) form.reset();
-    }
-    
-    // Handle login
-    function handleLogin(e) {
-        e.preventDefault();
-        
-        const phone = document.getElementById('login-phone').value;
-        const password = document.getElementById('login-password').value;
-        
-        // Find user
-        const user = users.find(u => u.phone === phone && u.password === password);
-        
-        if (user) {
-            // Update last login time
-            user.lastLogin = new Date().toISOString();
+img {
+    max-width: 100%;
+    height: auto;
+}
 
-            // Save to localStorage
-            localStorage.setItem('users', JSON.stringify(users));
-            localStorage.setItem('currentUser', JSON.stringify(user));
+.hidden {
+    display: none !important;
+}
 
-            currentUser = user;
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
 
-            showLoggedInUI();
-            updateDashboard();
+/* Button Styles */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+    font-size: 1rem;
+}
 
-            // Hide all sections, show only dashboard
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(s => s.classList.remove('active'));
-            dashboardSection.classList.add('active');
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
 
-            showNotification('Login successful', 'Welcome back!', 'success');
-        } else {
-            showNotification('Login failed', 'Invalid phone number or password', 'error');
-        }
-    }
-    
-    // Handle register
-    function handleRegister(e) {
-        e.preventDefault();
-        
-        const name = document.getElementById('register-name').value;
-        const phone = document.getElementById('register-phone').value;
-        const email = document.getElementById('register-email').value;
-        const password = document.getElementById('register-password').value;
-        const confirmPassword = document.getElementById('register-confirm-password').value;
-        
-        // Validate passwords match
-        if (password !== confirmPassword) {
-            showNotification('Registration failed', 'Passwords do not match', 'error');
-            return;
-        }
-        
-        // Check if user already exists
-        if (users.some(u => u.phone === phone)) {
-            showNotification('Registration failed', 'Phone number already registered', 'error');
-            return;
-        }
-        
-        // Create new user with bonus
-        const newUser = {
-            id: generateUserId(),
-            name,
-            phone,
-            email,
-            password,
-            balance: 0,
-            bonus: 200, // 200 KES bonus
-            bonusUnlocked: false,
-            transactions: [
-                {
-                    id: generateTransactionId(),
-                    type: 'bonus',
-                    amount: 200,
-                    date: new Date().toISOString(),
-                    description: 'Welcome bonus'
-                }
-            ],
-            createdAt: new Date().toISOString(),
-            lastLogin: new Date().toISOString()
-        };
-        
-        // Add user to users array
-        users.push(newUser);
-        
-        // Save to localStorage
-        localStorage.setItem('users', JSON.stringify(users));
-        localStorage.setItem('currentUser', JSON.stringify(newUser));
-        
-    currentUser = newUser;
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    color: var(--white);
+}
 
-    showLoggedInUI();
-    updateDashboard();
+.btn-outline {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
 
-    // Hide all sections, show only dashboard
-    const sections = document.querySelectorAll('.section');
-    sections.forEach(s => s.classList.remove('active'));
-    dashboardSection.classList.add('active');
+.btn-outline:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
 
-    showNotification('Registration successful', 'Welcome to M-Wallet! You received 200 KES bonus.', 'success');
+.btn-large {
+    padding: 12px 24px;
+    font-size: 1.1rem;
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+/* Navigation */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5%;
+    background-color: var(--white);
+    box-shadow: var(--box-shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo h1 {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-links a {
+    color: var(--text-color);
+    font-weight: 500;
+    padding: 0.5rem 0;
+    position: relative;
+}
+
+.nav-links a.active,
+.nav-links a:hover {
+    color: var(--primary-color);
+}
+
+.nav-links a.active::after,
+.nav-links a:hover::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary-color);
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+#user-greeting {
+    font-weight: 500;
+}
+
+.menu-toggle {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-color);
+}
+
+/* Main Content */
+main {
+    flex: 1;
+    padding: 2rem 5%;
+}
+
+.section {
+  display: none;
+}
+.section.active {
+  display: block;
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.hero-content {
+    flex: 1;
+}
+
+.hero-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: var(--text-light);
+}
+
+.hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.placeholder-image {
+    background-color: #e0e0e0;
+    width: 100%;
+    max-width: 400px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--border-radius);
+    color: var(--text-light);
+    font-size: 1.2rem;
+}
+
+/* Features Section */
+.features {
+    margin-bottom: 3rem;
+}
+
+.features h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+.feature-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.feature-card {
+    background-color: var(--white);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    transition: var(--transition);
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    margin-bottom: 1rem;
+}
+
+/* How It Works Section */
+.how-it-works {
+    margin-bottom: 3rem;
+}
+
+.how-it-works h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+.steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.step {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    position: relative;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin: 0 auto 1rem;
+}
+
+.step h3 {
+    margin-bottom: 1rem;
+}
+
+/* About Section */
+#about-section {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+#about-section h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+}
+
+#about-section > p {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+    color: var(--text-light);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.about-content {
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+}
+
+.about-text {
+    flex: 1;
+}
+
+.about-text h2 {
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+}
+
+.about-text p {
+    margin-bottom: 2rem;
+}
+
+.about-text ul {
+    margin-left: 1.5rem;
+    list-style-type: disc;
+}
+
+.about-text li {
+    margin-bottom: 0.5rem;
+}
+
+.about-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+/* Contact Section */
+#contact-section {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+#contact-section h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+}
+
+#contact-section > p {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+    color: var(--text-light);
+}
+
+.contact-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+}
+
+.contact-form h2,
+.contact-info h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.info-item i {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-right: 1rem;
+    width: 30px;
+    text-align: center;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.social-link:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+/* Authentication Forms */
+.auth-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem 0;
+}
+
+.auth-container {
+    background-color: var(--white);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    width: 100%;
+    max-width: 500px;
+}
+
+.auth-container h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+.bonus-alert {
+    display: flex;
+    align-items: center;
+    background-color: var(--primary-light);
+    color: var(--primary-dark);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 2rem;
+}
+
+.bonus-alert i {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.remember-me,
+.terms {
+    display: flex;
+    align-items: center;
+}
+
+.remember-me input,
+.terms input {
+    margin-right: 0.5rem;
+}
+
+.forgot-password {
+    color: var(--primary-color);
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+/* Dashboard */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.dashboard-header {
+    margin-bottom: 2rem;
+}
+
+.dashboard-header h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.last-login {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.account-overview {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.balance-card {
+    background-color: var(--white);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    position: relative;
+}
+
+.balance-info h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.balance-amount {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 1.5rem;
+}
+
+.currency {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+
+.amount {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.balance-breakdown {
+    margin-bottom: 1.5rem;
+}
+
+.breakdown-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.breakdown-label {
+    color: var(--text-light);
+}
+
+.breakdown-value {
+    font-weight: 600;
+}
+
+.bonus-status {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    background-color: var(--primary-light);
+    color: var(--primary-dark);
+}
+
+.bonus-status i {
+    font-size: 1.2rem;
+    margin-right: 1rem;
+}
+
+.quick-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.action-btn:hover {
+    transform: translateY(-5px);
+    background-color: var(--primary-light);
+}
+
+.action-btn i {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.transaction-section {
+    background-color: var(--white);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.transaction-section h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.empty-transactions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem 0;
+    color: var(--text-light);
+}
+
+.empty-transactions i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    width: 90%;
+    max-width: 500px;
+    animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-header h2 {
+    font-size: 1.5rem;
+}
+
+.close-modal {
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: var(--text-light);
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+/* Footer */
+.footer {
+    background-color: #333;
+    color: #fff;
+    padding: 3rem 5% 1rem;
+    margin-top: 3rem;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 3rem;
+    margin-bottom: 2rem;
+}
+
+.footer-logo h2 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.footer-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.footer-column h3 {
+    color: #fff;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+}
+
+.footer-column ul li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-column ul li a {
+    color: #ccc;
+}
+
+.footer-column ul li a:hover {
+    color: var(--primary-color);
+}
+
+.footer-newsletter h3 {
+    color: #fff;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.footer-newsletter p {
+    margin-bottom: 1.5rem;
+    color: #ccc;
+}
+
+.footer-newsletter form {
+    display: flex;
+}
+
+.footer-newsletter input {
+    flex: 1;
+    padding: 0.8rem;
+    border: none;
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+    font-family: inherit;
+}
+
+.footer-newsletter button {
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 2rem;
+    border-top: 1px solid #555;
+}
+
+.footer-bottom p {
+    color: #ccc;
+}
+
+/* Notification System */
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.notification {
+    background-color: var(--white);
+    color: var(--text-color);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    display: flex;
+    align-items: center;
+    animation: notificationFadeIn 0.3s ease;
+    max-width: 350px;
+}
+
+@keyframes notificationFadeIn {
+    from { opacity: 0; transform: translateX(50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.notification.success {
+    border-left: 4px solid var(--success-color);
+}
+
+.notification.error {
+    border-left: 4px solid var(--error-color);
+}
+
+.notification.warning {
+    border-left: 4px solid var(--warning-color);
+}
+
+.notification.info {
+    border-left: 4px solid var(--info-color);
+}
+
+.notification-icon {
+    margin-right: 1rem;
+    font-size: 1.5rem;
+}
+
+.notification.success .notification-icon {
+    color: var(--success-color);
+}
+
+.notification.error .notification-icon {
+    color: var(--error-color);
+}
+
+.notification.warning .notification-icon {
+    color: var(--warning-color);
+}
+
+.notification.info .notification-icon {
+    color: var(--info-color);
+}
+
+.notification-content {
+    flex: 1;
+}
+
+.notification-title {
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+}
+
+.notification-close {
+    cursor: pointer;
+    color: var(--text-light);
+    margin-left: 1rem;
+}
+
+/* Transaction Item */
+.transaction-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.transaction-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+}
+
+.transaction-deposit .transaction-icon {
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+}
+
+.transaction-withdraw .transaction-icon {
+    background-color: #FFEBEE;
+    color: var(--error-color);
+}
+
+.transaction-bonus .transaction-icon {
+    background-color: #FFF8E1;
+    color: var(--secondary-color);
+}
+
+.transaction-info {
+    flex: 1;
+}
+
+.transaction-title {
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+}
+
+.transaction-date {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.transaction-amount {
+    font-weight: 600;
+}
+
+.transaction-deposit .transaction-amount {
+    color: var(--success-color);
+}
+
+.transaction-withdraw .transaction-amount {
+    color: var(--error-color);
+}
+
+.transaction-bonus .transaction-amount {
+    color: var(--secondary-color);
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .footer-content {
+        grid-template-columns: 1fr 1fr;
     }
     
-    // Handle deposit
-    function handleDeposit(e) {
-        e.preventDefault();
-        
-        const amount = parseFloat(document.getElementById('deposit-amount').value);
-        const method = document.getElementById('deposit-method').value;
-        
-        if (!amount || amount <= 0) {
-            showNotification('Deposit failed', 'Please enter a valid amount', 'error');
-            return;
-        }
-        
-        // Add deposit to user's balance
-        currentUser.balance += amount;
-        
-        // Check if this deposit unlocks the bonus
-        if (!currentUser.bonusUnlocked && amount >= 49) {
-            currentUser.bonusUnlocked = true;
-            showNotification('Bonus unlocked', 'Your 200 KES bonus is now available for withdrawal!', 'success');
-        }
-        
-        // Add transaction
-        const transaction = {
-            id: generateTransactionId(),
-            type: 'deposit',
-            amount: amount,
-            method: method,
-            date: new Date().toISOString(),
-            description: `Deposit via ${getMethodName(method)}`
-        };
-        
-        currentUser.transactions.unshift(transaction);
-        
-        // Update localStorage
-        updateUserData();
-        
-        // Update dashboard
-        updateDashboard();
-        
-        // Hide modal
-        hideModal(depositModal);
-        
-        showNotification('Deposit successful', `${amount} KES has been added to your account`, 'success');
+    .footer-newsletter {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        flex-direction: column;
     }
     
-    // Handle withdraw
-    function handleWithdraw(e) {
-        e.preventDefault();
-        
-        const amount = parseFloat(document.getElementById('withdraw-amount').value);
-        const method = document.getElementById('withdraw-method').value;
-        const number = document.getElementById('withdraw-number').value;
-        
-        if (!amount || amount <= 0) {
-            showNotification('Withdrawal failed', 'Please enter a valid amount', 'error');
-            return;
-        }
-        
-        // Calculate available balance (including bonus if unlocked)
-        const availableAmount = currentUser.balance + (currentUser.bonusUnlocked ? currentUser.bonus : 0);
-        
-        if (amount > availableAmount) {
-            showNotification('Withdrawal failed', 'Insufficient funds', 'error');
-            return;
-        }
-        
-        // Process withdrawal
-        let fromBonus = 0;
-        let fromBalance = 0;
-        
-        // First use regular balance
-        if (amount <= currentUser.balance) {
-            fromBalance = amount;
-        } else {
-            // Use all regular balance + part of bonus
-            fromBalance = currentUser.balance;
-            fromBonus = amount - currentUser.balance;
-        }
-        
-        // Update balances
-        currentUser.balance -= fromBalance;
-        if (fromBonus > 0) {
-            currentUser.bonus -= fromBonus;
-        }
-        
-        // Add transaction
-        const transaction = {
-            id: generateTransactionId(),
-            type: 'withdraw',
-            amount: amount,
-            method: method,
-            date: new Date().toISOString(),
-            description: `Withdrawal to ${getMethodName(method)}: ${number}`
-        };
-        
-        currentUser.transactions.unshift(transaction);
-        
-        // Update localStorage
-        updateUserData();
-        
-        // Update dashboard
-        updateDashboard();
-        
-        // Hide modal
-        hideModal(withdrawModal);
-        
-        showNotification('Withdrawal successful', `${amount} KES has been sent to your ${getMethodName(method)}`, 'success');
+    .account-overview {
+        grid-template-columns: 1fr;
     }
     
-    // Handle send money
-    function handleSend(e) {
-        e.preventDefault();
-        
-        const recipientPhone = document.getElementById('recipient-phone').value;
-        const amount = parseFloat(document.getElementById('send-amount').value);
-        const note = document.getElementById('send-note').value;
-        
-        if (!amount || amount <= 0) {
-            showNotification('Transfer failed', 'Please enter a valid amount', 'error');
-            return;
-        }
-        
-        // Find recipient
-        const recipient = users.find(u => u.phone === recipientPhone);
-        
-        if (!recipient) {
-            showNotification('Transfer failed', 'Recipient not found', 'error');
-            return;
-        }
-        
-        // Calculate available balance (including bonus if unlocked)
-        const availableAmount = currentUser.balance + (currentUser.bonusUnlocked ? currentUser.bonus : 0);
-        
-        if (amount > availableAmount) {
-            showNotification('Transfer failed', 'Insufficient funds', 'error');
-            return;
-        }
-        
-        // Process transfer
-        let fromBonus = 0;
-        let fromBalance = 0;
-        
-        // First use regular balance
-        if (amount <= currentUser.balance) {
-            fromBalance = amount;
-        } else {
-            // Use all regular balance + part of bonus
-            fromBalance = currentUser.balance;
-            fromBonus = amount - currentUser.balance;
-        }
-        
-        // Update sender balances
-        currentUser.balance -= fromBalance;
-        if (fromBonus > 0) {
-            currentUser.bonus -= fromBonus;
-        }
-        
-        // Update recipient balance
-        recipient.balance += amount;
-        
-        // Add transaction for sender
-        const senderTransaction = {
-            id: generateTransactionId(),
-            type: 'send',
-            amount: amount,
-            recipient: recipient.phone,
-            recipientName: recipient.name,
-            note: note,
-            date: new Date().toISOString(),
-            description: `Sent to ${recipient.name}`
-        };
-        
-        currentUser.transactions.unshift(senderTransaction);
-        
-        // Add transaction for recipient
-        const recipientTransaction = {
-            id: generateTransactionId(),
-            type: 'receive',
-            amount: amount,
-            sender: currentUser.phone,
-            senderName: currentUser.name,
-            note: note,
-            date: new Date().toISOString(),
-            description: `Received from ${currentUser.name}`
-        };
-        
-        recipient.transactions.unshift(recipientTransaction);
-        
-        // Update localStorage
-        updateUserData();
-        
-        // Update dashboard
-        updateDashboard();
-        
-        // Hide modal
-        hideModal(sendModal);
-        
-        showNotification('Transfer successful', `${amount} KES has been sent to ${recipient.name}`, 'success');
+    .contact-container {
+        grid-template-columns: 1fr;
     }
     
-    // Handle contact form
-    function handleContact(e) {
-        e.preventDefault();
-        
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const message = document.getElementById('message').value;
-        
-        // In a real app, this would send the message to a server
-        console.log('Contact form submitted:', { name, email, message });
-        
-        // Reset form
-        e.target.reset();
-        
-        showNotification('Message sent', 'Thank you for your message. We will get back to you soon.', 'success');
+    .nav-links, .auth-buttons {
+        display: none;
     }
     
-    // Handle newsletter subscription
-    function handleNewsletter(e) {
-        e.preventDefault();
-        
-        const email = e.target.querySelector('input[type="email"]').value;
-        
-        // In a real app, this would subscribe the email to a newsletter
-        console.log('Newsletter subscription:', email);
-        
-        // Reset form
-        e.target.reset();
-        
-        showNotification('Subscription successful', 'Thank you for subscribing to our newsletter!', 'success');
+    .menu-toggle {
+        display: block;
     }
     
-    // Handle logout
-    function handleLogout() {
-        // Remove user from localStorage
-        localStorage.removeItem('currentUser');
-        
-        currentUser = null;
-        
-        showLoggedOutUI();
-        showSection(homeSection);
-        showNotification('Logout successful', 'You have been logged out', 'info');
+    .about-content {
+        flex-direction: column;
     }
     
-    // Show logged in UI
-    function showLoggedInUI() {
-        const authButtons = document.querySelector('.auth-buttons');
-        const userMenu = document.querySelector('.user-menu');
-        const userGreeting = document.getElementById('user-greeting');
-        
-        if (authButtons) authButtons.classList.add('hidden');
-        if (userMenu) {
-            userMenu.classList.remove('hidden');
-            userGreeting.textContent = `Hello, ${currentUser.name.split(' ')[0]}`;
-        }
+    .footer-content {
+        grid-template-columns: 1fr;
     }
     
-    // Show logged out UI
-    function showLoggedOutUI() {
-        const authButtons = document.querySelector('.auth-buttons');
-        const userMenu = document.querySelector('.user-menu');
-        
-        if (authButtons) authButtons.classList.remove('hidden');
-        if (userMenu) userMenu.classList.add('hidden');
+    .footer-links {
+        grid-template-columns: 1fr 1fr;
     }
     
-    // Update dashboard with user data
-    function updateDashboard() {
-        if (!currentUser) return;
-        
-        // Update user info
-        dashboardUserName.textContent = currentUser.name;
-        
-        // Format last login time
-        const lastLogin = new Date(currentUser.lastLogin);
-        lastLoginTime.textContent = formatDate(lastLogin);
-        
-        // Update balances
-        accountBalance.textContent = (currentUser.balance + currentUser.bonus).toFixed(2);
-        availableBalance.textContent = currentUser.balance.toFixed(2);
-        bonusBalance.textContent = currentUser.bonus.toFixed(2);
-        
-        // Update bonus status
-        if (currentUser.bonusUnlocked) {
-            bonusStatusLocked.classList.add('hidden');
-            bonusStatusUnlocked.classList.remove('hidden');
-        } else {
-            bonusStatusLocked.classList.remove('hidden');
-            bonusStatusUnlocked.classList.add('hidden');
-        }
-        
-        // Update transactions
-        updateTransactionsList();
+    .footer-newsletter {
+        grid-column: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-links {
+        grid-template-columns: 1fr;
     }
     
-    // Update transactions list
-    function updateTransactionsList() {
-        if (!currentUser || !transactionList) return;
-        
-        // Clear current list
-        transactionList.innerHTML = '';
-        
-        if (currentUser.transactions.length === 0) {
-            transactionList.innerHTML = `
-                <div class="empty-transactions">
-                    <i class="fas fa-receipt"></i>
-                    <p>No transactions yet</p>
-                </div>
-            `;
-            return;
-        }
-        
-        // Show only the first 5 transactions
-        const transactions = currentUser.transactions.slice(0, 5);
-        
-        transactions.forEach(transaction => {
-            const transactionEl = createTransactionElement(transaction);
-            transactionList.appendChild(transactionEl);
-        });
-        
-        // Add "View All" button if there are more than 5 transactions
-        if (currentUser.transactions.length > 5) {
-            const viewAllBtn = document.createElement('button');
-            viewAllBtn.className = 'btn btn-outline';
-            viewAllBtn.textContent = 'View All Transactions';
-            viewAllBtn.addEventListener('click', showAllTransactions);
-            
-            const viewAllContainer = document.createElement('div');
-            viewAllContainer.className = 'view-all-container';
-            viewAllContainer.style.textAlign = 'center';
-            viewAllContainer.style.marginTop = '1rem';
-            viewAllContainer.appendChild(viewAllBtn);
-            
-            transactionList.appendChild(viewAllContainer);
-        }
+    .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
     }
     
-    // Show all transactions
-    function showAllTransactions() {
-        if (!currentUser || !transactionList) return;
-        
-        // Clear current list
-        transactionList.innerHTML = '';
-        
-        if (currentUser.transactions.length === 0) {
-            transactionList.innerHTML = `
-                <div class="empty-transactions">
-                    <i class="fas fa-receipt"></i>
-                    <p>No transactions yet</p>
-                </div>
-            `;
-            return;
-        }
-        
-        // Show all transactions
-        currentUser.transactions.forEach(transaction => {
-            const transactionEl = createTransactionElement(transaction);
-            transactionList.appendChild(transactionEl);
-        });
+    .form-options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
     }
-    
-    // Create transaction element
-    function createTransactionElement(transaction) {
-        const transactionEl = document.createElement('div');
-        transactionEl.className = `transaction-item transaction-${transaction.type}`;
-        
-        let icon, title, amount;
-        
-        switch (transaction.type) {
-            case 'deposit':
-                icon = 'arrow-down';
-                title = transaction.description || 'Deposit';
-                amount = `+${transaction.amount.toFixed(2)}`;
-                break;
-            case 'withdraw':
-                icon = 'arrow-up';
-                title = transaction.description || 'Withdrawal';
-                amount = `-${transaction.amount.toFixed(2)}`;
-                break;
-            case 'bonus':
-                icon = 'gift';
-                title = transaction.description || 'Bonus';
-                amount = `+${transaction.amount.toFixed(2)}`;
-                break;
-            case 'send':
-                icon = 'paper-plane';
-                title = transaction.description || `Sent to ${transaction.recipientName}`;
-                amount = `-${transaction.amount.toFixed(2)}`;
-                break;
-            case 'receive':
-                icon = 'envelope-open';
-                title = transaction.description || `Received from ${transaction.senderName}`;
-                amount = `+${transaction.amount.toFixed(2)}`;
-                break;
-            default:
-                icon = 'exchange-alt';
-                title = transaction.description || 'Transaction';
-                amount = transaction.amount.toFixed(2);
-        }
-        
-        transactionEl.innerHTML = `
-            <div class="transaction-icon">
-                <i class="fas fa-${icon}"></i>
-            </div>
-            <div class="transaction-info">
-                <div class="transaction-title">${title}</div>
-                <div class="transaction-date">${formatDate(new Date(transaction.date))}</div>
-            </div>
-            <div class="transaction-amount">${amount}</div>
-        `;
-        
-        return transactionEl;
-    }
-    
-    // Show notification
-    function showNotification(title, message, type = 'info') {
-        const notificationContainer = document.getElementById('notification-container');
-        
-        if (!notificationContainer) return;
-        
-        const notification = document.createElement('div');
-        notification.className = `notification ${type}`;
-        
-        let icon;
-        switch (type) {
-            case 'success':
-                icon = 'check-circle';
-                break;
-            case 'error':
-                icon = 'exclamation-circle';
-                break;
-            case 'warning':
-                icon = 'exclamation-triangle';
-                break;
-            default:
-                icon = 'info-circle';
-        }
-        
-        notification.innerHTML = `
-            <div class="notification-icon">
-                <i class="fas fa-${icon}"></i>
-            </div>
-            <div class="notification-content">
-                <div class="notification-title">${title}</div>
-                <div class="notification-message">${message}</div>
-            </div>
-            <div class="notification-close">&times;</div>
-        `;
-        
-        notificationContainer.appendChild(notification);
-        
-        // Add close event
-        const closeBtn = notification.querySelector('.notification-close');
-        closeBtn.addEventListener('click', () => {
-            notification.remove();
-        });
-        
-        // Auto remove after 5 seconds
-        setTimeout(() => {
-            notification.remove();
-        }, 5000);
-    }
-    
-    // Helper Functions
-    
-    // Generate unique user ID
-    function generateUserId() {
-        return 'user_' + Date.now() + Math.random().toString(36).substr(2, 9);
-    }
-    
-    // Generate unique transaction ID
-    function generateTransactionId() {
-        return 'txn_' + Date.now() + Math.random().toString(36).substr(2, 9);
-    }
-    
-    // Format date
-    function formatDate(date) {
-        const options = { 
-            year: 'numeric', 
-            month: 'short', 
-            day: 'numeric', 
-            hour: '2-digit', 
-            minute: '2-digit' 
-        };
-        return date.toLocaleDateString('en-US', options);
-    }
-    
-    // Get payment method name
-    function getMethodName(method) {
-        switch (method) {
-            case 'mpesa':
-                return 'M-Pesa';
-            case 'card':
-                return 'Card';
-            case 'bank':
-                return 'Bank Transfer';
-            default:
-                return method;
-        }
-    }
-    
-    // Update user data in localStorage
-    function updateUserData() {
-        // Update user in users array
-        const userIndex = users.findIndex(u => u.id === currentUser.id);
-        if (userIndex !== -1) {
-            users[userIndex] = currentUser;
-        }
-        
-        // Save to localStorage
-        localStorage.setItem('users', JSON.stringify(users));
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-    }
-    
-    // Initialize the app
-    init();
-});
+}
