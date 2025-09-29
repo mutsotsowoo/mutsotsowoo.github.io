@@ -221,11 +221,6 @@
                             <label for="register-confirm-password">Confirm Password</label>
                             <input type="password" id="register-confirm-password" name="confirm-password" required>
                         </div>
-                        <div class="form-group">
-                            <label for="profile-pic">Profile Picture (Optional)</label>
-                            <input type="file" id="profile-pic" name="profile-pic" accept="image/*">
-                            <img id="profile-pic-preview" src="" alt="Profile Preview" style="display:none;max-width:100px;margin-top:10px;border-radius:50%;">
-                        </div>
                         <div class="form-options">
                             <div class="terms">
                                 <input type="checkbox" id="terms" name="terms" required>
@@ -244,7 +239,6 @@
             <section id="dashboard-section" class="section">
                 <div class="dashboard-container">
                     <div class="dashboard-header">
-                        <img id="dashboard-profile-pic" src="images/default-profile.png" alt="Profile Picture" style="width:64px;height:64px;border-radius:50%;object-fit:cover;">
                         <h1>Welcome, <span id="dashboard-user-name">User</span></h1>
                         <p class="last-login">Last login: <span id="last-login-time">Today, 12:30 PM</span></p>
                     </div>
@@ -459,51 +453,5 @@
     <div id="notification-container" class="notification-container"></div>
 
     <script src="js/app.js"></script>
-    <!-- ...existing code... -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Utility: Show only the requested section
-    function showSection(sectionId) {
-        document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-        document.getElementById(sectionId).classList.add('active');
-    }
-
-    // Login form handler
-    document.getElementById('login-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        // Simulate successful login
-        showSection('dashboard-section');
-    });
-
-    // Register form handler
-    document.getElementById('register-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        // Simulate successful registration
-        showSection('dashboard-section');
-    });
-
-    // Switch to register page
-    document.getElementById('to-register-link').addEventListener('click', function(e) {
-        e.preventDefault();
-        showSection('register-section');
-    });
-
-    // Switch to login page
-    document.getElementById('to-login-link').addEventListener('click', function(e) {
-        e.preventDefault();
-        showSection('login-section');
-    });
-
-    // Optionally, hide dashboard on logout
-    const logoutBtn = document.getElementById('logout-btn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            showSection('home-section');
-        });
-    }
-});
-</script>
-<!-- ...existing code... -->
 </body>
 </html>
